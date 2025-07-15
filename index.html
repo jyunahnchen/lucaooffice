@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鹿口嚴選 - 六級化農業體驗</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 動態背景 */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 50%, #e0f2e0 100%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* 導航欄 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d5a2d;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a7c4a;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: #4a7c4a;
+        }
+
+        .nav-menu a.active {
+            color: #4a7c4a;
+        }
+
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            padding: 2rem 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 頁面標題 */
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            color: #2d5a2d;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 卡片樣式 */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #2d5a2d;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* 格子佈局 */
+        .grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* 產品卡片 */
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #4a7c4a, #5a8c5a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-price {
+            color: #4a7c4a;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #4a7c4a, #5a8c5a);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 124, 74, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 124, 74, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4a7c4a;
+            border: 2px solid #4a7c4a;
+        }
+
+        .btn-outline:hover {
+            background: #4a7c4a;
+            color: white;
+        }
+
+        /* 表單樣式 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2d5a2d;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4a7c4a;
+        }
+
+        /* 特色區塊 */
+        .feature-highlight {
+            background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid rgba(74, 124, 74, 0.1);
+            margin: 2rem 0;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* 時間軸樣式 */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #4a7c4a;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 統計數據 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4a7c4a;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* 頁尾 */
+        .footer {
+            background: #2d5a2d;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #a8d8a8;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: #a8d8a8;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                transform: translateY(-10px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-menu li {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #eee;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 漢堡選單 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 2px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">鹿口嚴選</a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" onclick="showPage('home')" class="active">首頁</a></li>
+                <li><a href="#" onclick="showPage('about')">關於我們</a></li>
+                <li><a href="#" onclick="showPage('products')">農產加工</a></li>
+                <li><a href="#" onclick="showPage('experience')">農遊體驗</a></li>
+                <li><a href="#" onclick="showPage('news')">最新消息</a></li>
+                <li><a href="#" onclick="showPage('sustainability')">永續發展</a></li>
+                <li><a href="#" onclick="showPage('contact')">聯絡我們</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- 首頁 -->
+        <div id="home" class="page active">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">鹿口嚴選</h1>
+                    <p class="page-subtitle">拾起偏鄉土地的純萃</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="feature-highlight">
+                        <span class="feature-icon">🌾</span>
+                        <h3>在地農產</h3>
+                        <p>嚴選鹿草在地優質農產品，包含水稻、秋葵、小番茄、火龍果等，以契作方式確保品質與永續發展。</p>
+                        <button class="btn" onclick="showPage('products')">查看產品</button>
+                    </div>
+                    <div class="feature-highlight">
+                        <span class="feature-icon">🏭</span>
+                        <h3>食品工業城</h3>
+                        <p>建立完善的食品加工體系，從原料到成品一條龍服務，創造辛咖哩、辣味米餅、秋葵脆片等精品。</p>
+                        <button class="btn" onclick="showPage('about')">了解更多</button>
+                    </div>
+                    <div class="feature-highlight">
+                        <span class="feature-icon">🌱</span>
+                        <h3>永續發展</h3>
+                        <p>實踐ESG理念，推動永續農業、社區共榮，打造低碳市集與濕地導覽等生態體驗。</p>
+                        <button class="btn" onclick="showPage('sustainability')">ESG實踐</button>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">合作農戶</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">農產品項</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">體驗遊客</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">獲獎紀錄</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 關於我們 -->
+        <div id="about" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">關於我們</h1>
+                    <p class="page-subtitle">品牌故事與起源，打造鹿草食品工業城</p>
+                </div>
+
+                <div class="card">
+                    <h3>品牌故事與起源</h3>
+                    <p>「鹿口嚴選」是嘉義縣鹿草鄉最新推出的在地農特產品牌，於 2024 年 5 月 18 日在「鹿此友趣」農特產文化產業活動中正式亮相。品牌由鹿草鄉公所主導，結合鹿草鄉農會與馬稠後產業園區的食品業者共同推動，致力於推廣鹿草鄉的優質農產品，提升包裝形象與產品分級品質，並透過品牌平台媒合農民與企業，開拓更多元的產銷模式與產業價值。</p>
+                    <p>透過與在地農民的緊密合作，我們不僅保障了農產品的品質，更創造了穩定的收入來源，實現農民、消費者與環境的三贏局面。</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3>🏭 食品工業城</h3>
+                        <p>我們從在地耕作出發，推動生鮮分級、加工開發、品牌設計與行銷導流，打造完整的六級化產業循環鏈。結合馬稠後產業園區的日本食研、大成食品、饗賓餐飲集團、長庚中央廚房等夥伴，導入專業加工與大宗採購機制，藉此提升鹿草農產的市場價值與流通效率。</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>HACCP認證生產線</li>
+                            <li>ISO品質管理系統</li>
+                            <li>冷鏈物流配送</li>
+                            <li>產品履歷追溯</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🌱 鹿草青平台</h3>
+                        <p>鹿草青平台是嘉義縣鹿草鄉專為在地青年打造的支持與交流基地，致力於推動青年發展、創業扶植與社區連結。我們聚焦於地方資源的共創與活化，透過串聯同齡青年、在地企業與文創人才，展開多元行動，包含創業培力課程、產業交流工作坊、地方創生活動與主題小聚。
+
+平台致力於提供實用職涯技能訓練及返鄉發展的經驗交流機會，協助年輕人扎根家鄉、發展個人品牌，打造屬於自己的地方經營模式，為鹿草注入持續成長的青年動能。</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>創業輔導課程</li>
+                            <li>技術轉移服務</li>
+                            <li>市場通路媒合</li>
+                            <li>品牌包裝設計</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>2020年</h4>
+                            <p>創立鹿口嚴選品牌，開始與在地農民合作</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>2021年</h4>
+                            <p>建立食品加工廠房，推出首批加工商品</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>2022年</h4>
+                            <p>開展農遊體驗服務，推動鹿草小旅行</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>2023年</h4>
+                            <p>榮獲農業創新獎項，擴大生產規模</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>2024年</h4>
+                            <p>推動ESG永續發展，建立鹿草青平台</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 農產與加工 -->
+        <div id="products" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">農產與加工</h1>
+                    <p class="page-subtitle">在地農產展示與精製加工商品</p>
+                </div>
+
+                <div class="card">
+                    <h3>🌾 在地農產展示</h3>
+                    <p>嚴選鹿草在地優質農產品，採用契作方式與農民合作，確保品質穩定與供應無虞。</p>
+                </div>
+
+                <div class="grid grid-4">
+                    <div class="product-card">
+                        <div class="product-image">🌾</div>
+                        <div class="product-info">
+                            <h3>履歷稻米</h3>
+                            <p>完整產銷履歷追蹤的優質稻米</p>
+                            <div class="product-price">NT$ 280 / 3公斤</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🥒</div>
+                        <div class="product-info">
+                            <h3>秋葵</h3>
+                            <p>新鮮脆嫩的在地秋葵</p>
+                            <div class="product-price">NT$ 80 / 斤</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🍅</div>
+                        <div class="product-info">
+                            <h3>小番茄</h3>
+                            <p>酸甜適中的櫻桃小番茄</p>
+                            <div class="product-price">NT$ 120 / 斤</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🐲</div>
+                        <div class="product-info">
+                            <h3>火龍果</h3>
+                            <p>香甜多汁的紅肉火龍果</p>
+                            <div class="product-price">NT$ 150 / 斤</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🌶️</div>
+                        <div class="product-info">
+                            <h3>辣椒</h3>
+                            <p>辣味適中的朝天椒</p>
+                            <div class="product-price">NT$ 100 / 斤</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🌽</div>
+                        <div class="product-info">
+                            <h3>玉米</h3>
+                            <p>香甜飽滿的水果玉米</p>
+                            <div class="product-price">NT$ 60 / 支</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 3rem;">
+                    <h3>🏭 加工商品介紹</h3>
+                    <p>運用現代化食品加工技術，將在地農產品轉化為高品質的加工商品。</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="product-card">
+                        <div class="product-image">🌶️</div>
+                        <div class="product-info">
+                            <h3>辛咖哩</h3>
+                            <p>使用在地辣椒製作的特色咖哩醬</p>
+                            <div class="product-price">NT$ 180 / 罐</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🍘</div>
+                        <div class="product-info">
+                            <h3>辣味米餅</h3>
+                            <p>香脆可口的辣味米餅</p>
+                            <div class="product-price">NT$ 120 / 包</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🥒</div>
+                        <div class="product-info">
+                            <h3>秋葵脆片</h3>
+                            <p>低溫烘製的健康秋葵脆片</p>
+                            <div class="product-price">NT$ 150 / 包</div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🍯</div>
+                        <div class="product-info">
+                            <h3>蜂蜜禮盒</h3>
+                            <p>純天然蜂蜜精裝禮盒</p>
+                            <div class="product-price">NT$ 800 / 組</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 3rem;">
+                    <h3>🍱 九宮格餐盒專區</h3>
+                    <p>融合在地食材與傳統料理的特色餐盒，適合各種場合享用。</p>
+                    <div class="grid grid-3" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>田野風味款</h4>
+                            <p>傳統農家料理，樸實美味</p>
+                            <div class="product-price">NT$ 200 / 盒</div>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>親子人氣款</h4>
+                            <p>適合全家共享的溫馨口味</p>
+                            <div class="product-price">NT$ 180 / 盒</div>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>辣味招牌款</h4>
+                            <p>在地特色辣味料理</p>
+                            <div class="product-price">NT$ 220 / 盒</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 農遊與體驗 -->
+        <div id="experience" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">農遊與體驗</h1>
+                    <p class="page-subtitle">鹿草小旅行 · 九宮格餐桌體驗 · 景點導覽</p>
+                </div>
+
+                <div class="card">
+                    <h3>🚌 鹿草小旅行</h3>
+                    <p>深度體驗鹿草農村文化，從採收到品嚐，完整的農業六級化體驗。</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="feature-highlight">
+                        <h4>一日遊行程</h4>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>09:00 - 文化導覽：鹿草歷史文化介紹</li>
+                            <li>10:30 - 採收體驗：親手採收當季農產</li>
+                            <li>12:00 - 午餐時光：品嚐在地農家料理</li>
+                            <li>14:00 - 手作DIY：製作農產加工品</li>
+                            <li>15:30 - 美食體驗：品嚐特色小點</li>
+                            <li>17:00 - 賦歸</li>
+                        </ul>
+                        <div class="product-price">NT$ 800 / 人</div>
+                    </div>
+                    <div class="feature-highlight">
+                        <h4>二日遊行程</h4>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>第一天：俗女巡禮、農村體驗</li>
+                            <li>第二天：冷研碳索館參觀</li>
+                            <li>夜市美食：品嚐在地小吃</li>
+                            <li>民宿住宿：農村風情住宿</li>
+                            <li>溫泉體驗：放鬆身心</li>
+                            <li>伴手禮採購：帶回美好回憶</li>
+                        </ul>
+                        <div class="product-price">NT$ 1,500 / 人</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 3rem;">
+                    <h3>🍽️ 九宮格餐桌體驗</h3>
+                    <p>結合在地食材與傳統料理技法，提供沉浸式的餐桌教育體驗。</p>
+                    <div class="grid grid-3" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>田野風味款</h4>
+                            <p>傳統農家料理，體驗最純樸的田野風味</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>履歷稻米飯</li>
+                                <li>秋葵炒蛋</li>
+                                <li>小番茄沙拉</li>
+                                <li>農家蔬菜湯</li>
+                            </ul>
+                            <div class="product-price">NT$ 350 / 人</div>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>親子人氣款</h4>
+                            <p>適合全家共享，孩子們最愛的溫馨口味</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>香甜玉米濃湯</li>
+                                <li>火龍果果凍</li>
+                                <li>蜂蜜吐司</li>
+                                <li>親子手作餅乾</li>
+                            </ul>
+                            <div class="product-price">NT$ 320 / 人</div>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>辣味招牌款</h4>
+                            <p>在地特色辣味料理，挑戰味蕾極限</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>辛咖哩雞肉</li>
+                                <li>辣椒炒小黃瓜</li>
+                                <li>辣味米餅</li>
+                                <li>辣椒醬DIY</li>
+                            </ul>
+                            <div class="product-price">NT$ 380 / 人</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 3rem;">
+                    <h3>🏛️ 景點介紹</h3>
+                    <p>探索鹿草豐富的歷史文化與自然生態景觀。</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="product-card">
+                        <div class="product-image">⛩️</div>
+                        <div class="product-info">
+                            <h3>圓山宮</h3>
+                            <p>鹿草在地信仰中心，香火鼎盛的古廟</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🏞️</div>
+                        <div class="product-info">
+                            <h3>鹿東堀</h3>
+                            <p>歷史文化遺跡，見證鹿草發展軌跡</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">📚</div>
+                        <div class="product-info">
+                            <h3>日式圖書館</h3>
+                            <p>保存完整的日治時期建築</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🧊</div>
+                        <div class="product-info">
+                            <h3>製冰部</h3>
+                            <p>傳統製冰技藝展示館</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🦆</div>
+                        <div class="product-info">
+                            <h3>荷包嶼濕地</h3>
+                            <p>豐富的生態濕地環境</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">🔬</div>
+                        <div class="product-info">
+                            <h3>冷研碳索館</h3>
+                            <p>科學教育體驗館</p>
+                            <button class="btn btn-outline">預約導覽</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最新消息 -->
+        <div id="news" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">最新消息</h1>
+                    <p class="page-subtitle">活動資訊 · 媒體報導 · 品牌動態</p>
+                </div>
+
+                <div class="card">
+                    <h3>📢 最新活動資訊</h3>
+                    <div class="grid grid-2" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>2025春季採收體驗</h4>
+                            <p>時間：2025年3月15日 - 4月30日</p>
+                            <p>地點：鹿草農場</p>
+                            <p>活動內容：親手採收當季農產品，體驗農夫的辛勞與收穫的喜悅</p>
+                            <button class="btn">立即報名</button>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>九宮格餐桌新品發表</h4>
+                            <p>時間：2025年4月20日</p>
+                            <p>地點：鹿草食品工業城</p>
+                            <p>活動內容：品嚐最新研發的創意料理，與主廚面對面交流</p>
+                            <button class="btn">立即報名</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🏆 媒體報導與獎項</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h4>2024年12月</h4>
+                                <p>榮獲「農業創新獎」最佳六級化農業發展獎</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h4>2024年10月</h4>
+                                <p>三立新聞專題報導「鹿草農業轉型成功案例」</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h4>2024年8月</h4>
+                                <p>農委會農業推廣雜誌封面故事專訪</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h4>2024年6月</h4>
+                                <p>榮獲「優良農產品標章」認證</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌟 品牌動態</h3>
+                    <div class="grid grid-3">
+                        <div class="feature-highlight">
+                            <h4>新品上市</h4>
+                            <p>推出限量版蜂蜜禮盒，採用百分百純天然蜂蜜，包裝精美適合送禮。</p>
+                            <small>2025年3月1日</small>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>合作擴展</h4>
+                            <p>與台南知名餐廳合作，將鹿草農產品推廣至更多消費者。</p>
+                            <small>2025年2月15日</small>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>設施升級</h4>
+                            <p>食品工業城引進新型冷凍設備，提升產品保鮮品質。</p>
+                            <small>2025年1月20日</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 永續與社會責任 -->
+        <div id="sustainability" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">永續與社會責任</h1>
+                    <p class="page-subtitle">ESG實踐 · 地方創生 · 社區共榮</p>
+                </div>
+
+                <div class="card">
+                    <h3>🌱 永續農業</h3>
+                    <p>致力於推動環境友善的農業生產方式，保護生態環境同時確保農業的可持續發展。</p>
+                    <div class="grid grid-2" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>契作合作</h4>
+                            <p>與農民建立長期穩定的合作關係，提供技術支援與保價收購，確保農民收益。</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>保價收購制度</li>
+                                <li>技術輔導服務</li>
+                                <li>農業資材補助</li>
+                                <li>定期教育訓練</li>
+                            </ul>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>履歷稻米</h4>
+                            <p>建立完整的產銷履歷追蹤系統，確保食品安全與品質。</p>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>生產履歷記錄</li>
+                                <li>品質檢驗證明</li>
+                                <li>包裝標示清楚</li>
+                                <li>追蹤系統建置</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🤝 社區共榮</h3>
+                    <p>積極參與社區發展，培育在地人才，促進鹿草地區的整體繁榮。</p>
+                    <div class="grid grid-3" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>農家表揚</h4>
+                            <p>定期舉辦優秀農家表揚活動，肯定農民的努力與貢獻。</p>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>在地導覽</h4>
+                            <p>培訓在地居民成為專業導覽員，增加就業機會。</p>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>社區共創</h4>
+                            <p>與社區組織合作，共同推動地方發展計畫。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌍 ESG實踐</h3>
+                    <p>全面落實環境保護、社會責任與公司治理，追求永續發展的企業經營模式。</p>
+                    <div class="grid grid-3" style="margin-top: 2rem;">
+                        <div class="feature-highlight">
+                            <h4>環境保護 (E)</h4>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>有機農法推廣</li>
+                                <li>節水灌溉系統</li>
+                                <li>減塑包裝材料</li>
+                                <li>廢棄物減量</li>
+                                <li>碳足跡監測</li>
+                            </ul>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>社會責任 (S)</h4>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>員工福利保障</li>
+                                <li>社區公益參與</li>
+                                <li>弱勢族群關懷</li>
+                                <li>教育推廣活動</li>
+                                <li>青年就業機會</li>
+                            </ul>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>公司治理 (G)</h4>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>透明財務管理</li>
+                                <li>誠信經營原則</li>
+                                <li>風險管控機制</li>
+                                <li>法規遵循制度</li>
+                                <li>利害關係人溝通</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">50%</div>
+                        <div class="stat-label">節水成效</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">30%</div>
+                        <div class="stat-label">碳排放減少</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">受益農戶</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">社區合作案</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聯絡我們 -->
+        <div id="contact" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">聯絡我們</h1>
+                    <p class="page-subtitle">聯絡表單 · 聯絡資訊 · 社群媒體</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3>📝 聯絡表單</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">姓名</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">電子郵件</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">聯絡電話</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">主旨</label>
+                                <select id="subject" name="subject">
+                                    <option value="">請選擇主旨</option>
+                                    <option value="product">產品諮詢</option>
+                                    <option value="experience">體驗預約</option>
+                                    <option value="cooperation">合作提案</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">訊息內容</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">送出訊息</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>📞 聯絡資訊</h3>
+                        <div class="feature-highlight">
+                            <h4>鹿口嚴選總部</h4>
+                            <p>📍 地址：嘉義縣鹿草鄉中正路123號</p>
+                            <p>📞 電話：(05) 375-1234</p>
+                            <p>📠 傳真：(05) 375-5678</p>
+                            <p>✉️ Email：info@lukukou.com</p>
+                            <p>🕐 營業時間：週一至週五 9:00-18:00</p>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>食品工業城</h4>
+                            <p>📍 地址：嘉義縣鹿草鄉工業路456號</p>
+                            <p>📞 電話：(05) 375-9876</p>
+                            <p>🕐 參觀時間：週一至週六 10:00-17:00</p>
+                            <p>📝 需提前預約</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📱 社群媒體</h3>
+                    <p>關注我們的社群媒體，獲得最新資訊與活動通知。</p>
+                    <div class="social-links" style="margin-top: 2rem;">
+                        <a href="#" class="btn">📘 Facebook</a>
+                        <a href="#" class="btn">📷 Instagram</a>
+                        <a href="#" class="btn">📞 LINE官方帳號</a>
+                        <a href="#" class="btn">🎵 TikTok (建置中)</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🗺️ 交通資訊</h3>
+                    <div class="grid grid-2">
+                        <div class="feature-highlight">
+                            <h4>開車路線</h4>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>國道1號下嘉義交流道</li>
+                                <li>接159縣道往鹿草方向</li>
+                                <li>約15分鐘車程即可到達</li>
+                                <li>備有免費停車場</li>
+                            </ul>
+                        </div>
+                        <div class="feature-highlight">
+                            <h4>大眾運輸</h4>
+                            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                <li>搭乘高鐵至嘉義站</li>
+                                <li>轉搭公車7702號至鹿草</li>
+                                <li>或搭乘台鐵至嘉義站</li>
+                                <li>可提供接駁服務（需預約）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>鹿口嚴選</h3>
+                    <p>六級化農業體驗領導品牌</p>
+                    <p>📍 嘉義縣鹿草鄉中正路123號</p>
+                    <p>📞 (05) 375-1234</p>
+                    <p>✉️ info@lukukou.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>產品服務</h3>
+                    <a href="#" onclick="showPage('products')">在地農產</a>
+                    <a href="#" onclick="showPage('products')">加工商品</a>
+                    <a href="#" onclick="showPage('experience')">農遊體驗</a>
+                    <a href="#" onclick="showPage('experience')">九宮格餐桌</a>
+                </div>
+                <div class="footer-section">
+                    <h3>關於我們</h3>
+                    <a href="#" onclick="showPage('about')">品牌故事</a>
+                    <a href="#" onclick="showPage('about')">食品工業城</a>
+                    <a href="#" onclick="showPage('sustainability')">永續發展</a>
+                    <a href="#" onclick="showPage('news')">最新消息</a>
+                </div>
+                <div class="footer-section">
+                    <h3>社群媒體</h3>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">📞</a>
+                        <a href="#">🎵</a>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">關注我們獲得最新消息</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2025 鹿口嚴選. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 頁面切換功能
+        function showPage(pageId) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // 顯示指定頁面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新導航欄狀態
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // 找到對應的導航連結並設為活動狀態
+            const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // 滾動到頁面頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 關閉行動版選單
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.remove('active');
+        }
+
+        // 漢堡選單切換
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // 導航欄滾動效果
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // 產品卡片交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // 表單提交處理
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感謝您的訊息！我們會盡快與您聯繫。');
+            this.reset();
+        });
+
+        // 點擊外部關閉選單
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            const navContainer = document.querySelector('.nav-container');
+            
+            if (!navContainer.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // 鍵盤導航支援
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navMenu = document.getElementById('navMenu');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
