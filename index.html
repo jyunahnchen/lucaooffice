@@ -29,6 +29,17 @@
             background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 50%, #e0f2e0 100%);
             animation: bgMove 20s ease-in-out infinite;
         }
+/* logo樣式 */
+        .logo img {
+  height: 45px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+            .inline-logo {
+  height: 180px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
 
         @keyframes bgMove {
             0%, 100% { transform: translateY(0px); }
@@ -475,6 +486,9 @@
                 grid-template-columns: 1fr;
             }
 
+
+
+
             .timeline::before {
                 left: 20px;
             }
@@ -518,7 +532,10 @@
     <!-- 導航欄 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" onclick="showPage('home')">鹿口嚴選</a>
+            <a href="#" class="logo" onclick="showPage('home')">
+  <img src="/images/logo.png" alt="Logo"> 鹿口嚴選
+</a>
+
             <div class="hamburger" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
@@ -541,7 +558,12 @@
         <div id="home" class="page active">
             <div class="container">
                 <div class="page-header">
-                    <h1 class="page-title">鹿口嚴選</h1>
+                   <img src="/images/logo.png" alt="鹿口嚴選 Logo" class="inline-logo">
+                    <h1 class="page-title">
+   
+  鹿口嚴選
+</h1>
+
                     <p class="page-subtitle">拾起偏鄉土地的純萃</p>
                 </div>
 
@@ -629,32 +651,32 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <h4>2020年</h4>
-                            <p>創立鹿口嚴選品牌，開始與在地農民合作</p>
+                            <h4>2014年</h4>
+                            <p>馬稠後產業園區的一期工程動工</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-content">
-                            <h4>2021年</h4>
-                            <p>建立食品加工廠房，推出首批加工商品</p>
+                            <h4>2020年</h4>
+                            <p>台灣食研食品總公司工廠開始製造、開設嘉義營業所</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-content">
                             <h4>2022年</h4>
-                            <p>開展農遊體驗服務，推動鹿草小旅行</p>
+                            <p>大成集團嘉義馬稠後產業園區的食品加工廠開始營運</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-content">
                             <h4>2023年</h4>
-                            <p>榮獲農業創新獎項，擴大生產規模</p>
+                            <p>推動地方創生，創立鹿草青平台</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-content">
                             <h4>2024年</h4>
-                            <p>推動ESG永續發展，建立鹿草青平台</p>
+                            <p>推動ESG永續發展，推動鹿口嚴選品牌</p>
                         </div>
                     </div>
                 </div>
@@ -671,7 +693,7 @@
 
                 <div class="card">
                     <h3>🌾 在地農產展示</h3>
-                    <p>嚴選鹿草在地優質農產品，採用契作方式與農民合作，確保品質穩定與供應無虞。</p>
+                    <p>嚴選鹿草在地優質農產品，採用契作方式或與農民合作，確保品質穩定與供應無虞。</p>
                 </div>
 
                 <div class="grid grid-4">
@@ -958,28 +980,29 @@
                 <div class="card">
                     <h3>🏆 媒體報導與獎項</h3>
                     <div class="timeline">
-                        <div class="timeline-item">
+                                                <div class="timeline-item">
                             <div class="timeline-content">
-                                <h4>2024年12月</h4>
-                                <p>榮獲「農業創新獎」最佳六級化農業發展獎</p>
+                                <h4>2012年「全國火龍果品質評鑑」冠軍 </h4>
+                                <p>和興農場</p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-content">
-                                <h4>2024年10月</h4>
-                                <p>三立新聞專題報導「鹿草農業轉型成功案例」</p>
+                                <h4>2017年</h4>
+                                <p>「全國米穀雜糧加工產品競賽」全國第一殊榮 </p>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-content">
-                                <h4>2024年8月</h4>
-                                <p>農委會農業推廣雜誌封面故事專訪</p>
+                                <h4>蜂蜜評鑑特等獎項</h4>
+                                <p>特等獎：蘇素玲 頭等獎：柯明群 鄧凱文 鄧名賀 陳國峰</p>
                             </div>
                         </div>
+
                         <div class="timeline-item">
                             <div class="timeline-content">
-                                <h4>2024年6月</h4>
-                                <p>榮獲「優良農產品標章」認證</p>
+                                <h4>2025年</h4>
+                                <p>鹿草農產創新！「九宮格飲食體驗」啟動地方創生新風潮</p>
                             </div>
                         </div>
                     </div>
@@ -990,17 +1013,17 @@
                     <div class="grid grid-3">
                         <div class="feature-highlight">
                             <h4>新品上市</h4>
-                            <p>推出限量版蜂蜜禮盒，採用百分百純天然蜂蜜，包裝精美適合送禮。</p>
+                            <p>推出限量版伴手禮，結合牛奶香米、玄Q米，以及咖啡即食包。</p>
                             <small>2025年3月1日</small>
                         </div>
                         <div class="feature-highlight">
                             <h4>合作擴展</h4>
-                            <p>與台南知名餐廳合作，將鹿草農產品推廣至更多消費者。</p>
+                            <p>與嘉義知名餐廳合作，將鹿草農牛奶香米推廣至更多消費者。</p>
                             <small>2025年2月15日</small>
                         </div>
                         <div class="feature-highlight">
-                            <h4>設施升級</h4>
-                            <p>食品工業城引進新型冷凍設備，提升產品保鮮品質。</p>
+                            <h4>農遊體驗</h4>
+                            <p>結合。</p>
                             <small>2025年1月20日</small>
                         </div>
                     </div>
