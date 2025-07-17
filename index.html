@@ -248,6 +248,62 @@
             margin-top: 0.5rem;
         }
 
+        /*耕作者卡片*/
+.producer-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+
+.producer-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.producer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.producer-card .info {
+    flex: 1;
+}
+
+.producer-card h4 {
+    margin-bottom: 1rem;
+    color: #4a7c4a;
+}
+
+.producer-card p {
+    margin-bottom: 0.5rem;
+}
+
+.producer-card .contact {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.producer-card .photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.producer-card .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
         /* 按鈕樣式 */
         .btn {
             display: inline-block;
@@ -555,6 +611,7 @@
 
     <main class="main-content">
         <!-- 首頁 -->
+         <div id="product-detail" class="page"></div>
         <div id="home" class="page active">
             <div class="container">
                 <div class="page-header">
@@ -703,6 +760,8 @@
                             <h3>履歷稻米</h3>
                             <p>完整產銷履歷追蹤的優質稻米</p>
                             <div class="product-price">NT$ 280 / 3公斤</div>
+                            <a href="#" class="btn" onclick="showProductPage('rice')">了解更多</a>
+
                         </div>
                     </div>
                     <div class="product-card">
@@ -711,6 +770,7 @@
                             <h3>秋葵</h3>
                             <p>新鮮脆嫩的在地秋葵</p>
                             <div class="product-price">NT$ 80 / 斤</div>
+                            <a href="#" class="btn" onclick="showProductPage('okra')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -719,6 +779,7 @@
                             <h3>小番茄</h3>
                             <p>酸甜適中的櫻桃小番茄</p>
                             <div class="product-price">NT$ 120 / 斤</div>
+                            <a href="#" class="btn" onclick="showProductPage('cherry-tomato')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -727,6 +788,7 @@
                             <h3>火龍果</h3>
                             <p>香甜多汁的紅肉火龍果</p>
                             <div class="product-price">NT$ 150 / 斤</div>
+                            <a href="#" class="btn" onclick="showProductPage('dragon-fruit')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -735,6 +797,7 @@
                             <h3>辣椒</h3>
                             <p>辣味適中的朝天椒</p>
                             <div class="product-price">NT$ 100 / 斤</div>
+                            <a href="#" class="btn" onclick="showProductPage('chili')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -743,6 +806,7 @@
                             <h3>玉米</h3>
                             <p>香甜飽滿的水果玉米</p>
                             <div class="product-price">NT$ 60 / 支</div>
+                            <a href="#" class="btn" onclick="showProductPage('corn')">了解更多</a>
                         </div>
                     </div>
                 </div>
@@ -759,6 +823,7 @@
                             <h3>辛咖哩</h3>
                             <p>使用在地辣椒製作的特色咖哩醬</p>
                             <div class="product-price">NT$ 180 / 罐</div>
+                            <a href="#" class="btn" onclick="showProductPage('spicy-curry')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -767,6 +832,7 @@
                             <h3>辣味米餅</h3>
                             <p>香脆可口的辣味米餅</p>
                             <div class="product-price">NT$ 120 / 包</div>
+                            <a href="#" class="btn" onclick="showProductPage('spicy-rice-crackers')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -775,6 +841,7 @@
                             <h3>秋葵脆片</h3>
                             <p>低溫烘製的健康秋葵脆片</p>
                             <div class="product-price">NT$ 150 / 包</div>
+                            <a href="#" class="btn" onclick="showProductPage('okra-chips')">了解更多</a>
                         </div>
                     </div>
                     <div class="product-card">
@@ -783,6 +850,8 @@
                             <h3>蜂蜜禮盒</h3>
                             <p>純天然蜂蜜精裝禮盒</p>
                             <div class="product-price">NT$ 800 / 組</div>
+                            <a href="#" class="btn" onclick="showProductPage('honey')">了解更多</a>
+
                         </div>
                     </div>
                 </div>
@@ -1369,6 +1438,184 @@
                 navMenu.classList.remove('active');
             }
         });
+
+          const pages = document.querySelectorAll('.page');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+
+  function showPage(pageId) {
+    pages.forEach(page => page.classList.remove('active'));
+    document.getElementById(pageId)?.classList.add('active');
+
+    navLinks.forEach(link => link.classList.remove('active'));
+    const currentLink = Array.from(navLinks).find(link => link.getAttribute('onclick')?.includes(pageId));
+    currentLink?.classList.add('active');
+
+    history.pushState(null, '', `#${pageId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleMenu() {
+    document.getElementById('navMenu')?.classList.toggle('active');
+  }
+
+  // 3️⃣ 產品模板資料
+ const productTemplates = {
+  rice: {
+    title: '履歷稻米',
+    desc: '我們的履歷稻米採用完整的產銷履歷追蹤...',
+    img: 'images/rice.jpg',
+    details: ['品種：台稉九號', '產地：嘉義縣鹿草鄉', '價格：NT$ 280 / 3公斤'],
+    producers: [
+      {
+        name: '陳大華',
+        farm: '大華有機農場',
+        location: '嘉義縣鹿草鄉三角村',
+        products: '有機稻米、有機蔬菜',
+        contact: '0912-345-678',
+        photo: 'images/producer1.jpg'
+        
+      },
+      {
+        name: '林小美',
+        farm: '小美生態農場',
+        location: '嘉義縣鹿草鄉后寮村',
+        products: '有機稻米、有機果樹',
+        contact: '0934-567-890'
+      }
+    ]
+  },
+  okra: {
+    title: '秋葵',
+    desc: '我們的秋葵採用無農藥栽培...',
+    img: 'images/okra.jpg',
+    details: ['產地：嘉義縣鹿草鄉', '價格：NT$ 80 / 斤'],
+    producers: [
+      {
+        name: '王志明',
+        farm: '志明蔬菜園',
+        location: '嘉義縣鹿草鄉竹山村',
+        products: '秋葵、小番茄、青蔥',
+        contact: '0956-789-012'
+      }
+    ]
+  },
+  honey: {
+    title: '純天然蜂蜜',
+    desc: '我們的蜂蜜來自當地養蜂人，採用無添加的純天然蜂蜜...',
+    img: 'images/honey.jpg',
+    details: ['種類：百花蜜', '容量：500ml', '價格：NT$ 800 / 瓶'],
+    producers: [
+      {
+        name: '李阿德',
+        farm: '阿德養蜂場',
+        location: '嘉義縣鹿草鄉光潭村',
+        products: '百花蜜、龍眼蜜',
+        contact: '0978-901-234'
+      }
+    ]
+  },
+  'dragon-fruit': {
+    title: '火龍果',
+    desc: '我們的火龍果採用有機栽培，無農藥殘留...',
+    img: 'images/dragon-fruit.jpg',
+    details: ['品種：紅心火龍果', '產地：嘉義縣鹿草鄉', '價格：NT$ 120 / 斤'],
+    producers: [
+      {
+        name: '張文雄',
+        farm: '文雄有機農場',
+        location: '嘉義縣鹿草鄉碧潭村',
+        products: '有機火龍果、有機木瓜',
+        contact: '0965-432-109'
+      }
+    ]
+  },
+  curry: {
+    title: '辛咖哩',
+    desc: '這款獨特的咖哩醬採用了在地種植的辣椒...',
+    img: 'images/curry.jpg',
+    details: ['成分：辣椒、薑黃、蒜頭', '價格：NT$ 180 / 罐'],
+    producers: [
+      {
+        name: '曾美惠',
+        farm: '美惠香料園',
+        location: '嘉義縣鹿草鄉後堀村',
+        products: '辣椒、薑黃、香料',
+        contact: '0921-876-543'
+      }
+    ]
+  },
+  'lunchbox-field': {
+    title: '田野風味款餐盒',
+    desc: '這款餐盒彙集了鹿草當地的傳統農家料理...',
+    img: 'images/lunchbox-field.jpg',
+    details: ['內容：履歷稻米飯、秋葵炒蛋等', '價格：NT$ 200 / 盒'],
+    producers: [
+      {
+        name: '鄭秀娟',
+        farm: '秀娟食堂',
+        location: '嘉義縣鹿草鄉鹿草村',
+        products: '傳統農家料理、客製化餐盒',
+        contact: '0987-654-321'
+      }
+    ]
+  }
+};
+
+  // 4️⃣ 顯示產品詳情
+  function showProductPage(productId) {
+    pages.forEach(page => page.classList.remove('active'));
+
+    const product = productTemplates[productId];
+    const productPage = document.getElementById('product-detail');
+
+
+const producers = productTemplates[productId].producers;
+const producerHtml = producers.map(producer => `
+  <div class="producer-card">
+    <div class="info">
+      <h4>${producer.name}</h4>
+      <p>農場名稱: ${producer.farm}</p>
+      <p>地點: ${producer.location}</p>
+      <p>生產項目: ${producer.products}</p>
+      <p class="contact">聯絡方式: ${producer.contact}</p>
+    </div>
+    <div class="photo">
+      <img src="${producer.photo}" alt="${producer.name}">
+    </div>
+  </div>
+`).join('');
+
+// ...
+
+    if (!product) {
+      productPage.innerHTML = `<div class="container"><h2>找不到產品</h2><a class="btn" onclick=\"showPage('products')\">返回產品</a></div>`;
+    } else {
+      productPage.innerHTML = `
+        <div class="container">
+          <h3 style="margin-top: 2rem;">我們的生產者</h3>
+  <div class="producer-list">
+    ${producerHtml}
+  </div>
+          <a class="btn" onclick=\"showPage('products')\">← 返回產品頁</a>
+        </div>
+      `;
+    }
+    productPage.classList.add('active');
+    history.pushState(null, '', `#product-${productId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 5️⃣ 首次載入 hash router 支援
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = location.hash.replace('#', '');
+    if (hash.startsWith('product-')) {
+      showProductPage(hash.replace('product-', ''));
+    } else if (document.getElementById(hash)) {
+      showPage(hash);
+    } else {
+      showPage('home');
+    }
+  });
     </script>
 </body>
 </html>
