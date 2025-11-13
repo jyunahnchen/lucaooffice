@@ -236,3 +236,488 @@ window.addEventListener('DOMContentLoaded', () => {
         showPage('home');
     }
 });
+// 在原有的script.js末尾添加以下代碼
+
+// 點位篩選功能
+function filterLocations(category) {
+    const cards = document.querySelectorAll('.location-card');
+    const buttons = document.querySelectorAll('.filter-btn');
+    
+    // 更新按鈕狀態
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick').includes(`'${category}'`)) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // 篩選卡片
+    cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+// 點位詳情資料
+const locationDetails = {
+    xiaoping: {
+        name: '小品草莓園',
+        category: '農場果園',
+        intro: '由年輕夫妻經營的草莓實驗農場，從小區域測試開始，現已發展成擁有三分多土地的專業草莓園。這裡不僅有多樣化的草莓品種，還有鹿角蕨等特色植物。',
+        features: [
+            '九月底種植，十一月至隔年四月為採收期',
+            '品種多樣化，採果期間不使用農藥',
+            '提供親子採果體驗，享受踩踏土地的樂趣',
+            '夏季轉作玉米，實踐永續農業',
+            '酪梨樹下栽培多肉植物與鹿角蕨'
+        ],
+        services: [
+            '草莓採果體驗（秤重計價）',
+            'DIY草莓盆栽',
+            '親子田間漫步',
+            '季節限定採果樂'
+        ],
+        owner: '農家子弟出身的年輕夫妻，將草莓種植的夢想化為現實，在故鄉土地上分享農村生活的愜意。'
+    },
+    
+    wenpin: {
+        name: '文品蔬菜行',
+        category: '農場果園',
+        intro: '原本從事建築水電工程的文生，為了照顧受傷的母親回到故鄉，接手父親的農田開始種植秋葵。堅持品質不拼量的經營理念，開發出秋葵茶、秋葵泡菜等創新產品。',
+        features: [
+            '主要種植秋葵，部分薑黃',
+            '日出前收成，均勻日曬，定時翻面',
+            '兩個月的悉心照料才能產出優質加工品',
+            '秋葵除新鮮出貨外，還加工製成多樣產品',
+            '從父親的固執到驕傲，見證農業轉型的成功'
+        ],
+        services: [
+            'DIY秋葵泡菜體驗',
+            '秋葵茶品嚐',
+            '秋葵冰沙、秋葵咖啡',
+            '農業創新故事分享'
+        ],
+        owner: '文生夫婦以創新思維經營傳統農業，用心營造產品價值，讓更多人品嚐到在地美味。'
+    },
+    
+    hexing: {
+        name: '和興生態農場',
+        category: '農場果園',
+        intro: '鹿草第一個有機火龍果農場，歷經四年轉型期，從吉園圃到生產履歷，現已獲得有機認證。自行培育「田惠美」品種，堅持當季生產不照燈，是在地首推的火龍果農場。',
+        features: [
+            '2012年「全國火龍果品質評鑑」冠軍',
+            '自己培育留種，取太太名字命名品種',
+            '皮薄肉細膩的獨特口感',
+            '堅持當季生產，不使用人工照明',
+            '為給孩子快樂童年而返鄉創業'
+        ],
+        services: [
+            '有機火龍果生態導覽',
+            '火龍果採果體驗（季節限定）',
+            '火龍果果醬DIY',
+            '火龍果種植盆栽DIY'
+        ],
+        owner: '用時間和經驗累積出來的技術，充滿愛的清甜果實，讓田惠美火龍果成為在地驕傲。'
+    },
+    
+    muxin: {
+        name: '沐欣草莓園',
+        category: '農場果園',
+        intro: '返鄉青農經營的溫室草莓園，先參加農業技術團學習專業技術，選擇介質栽培的現代化種植方式。除了觀光採果，還提供草莓加工產品。',
+        features: [
+            '溫室栽培技術，品質穩定',
+            '介質栽培需用熱水消毒，工序嚴謹',
+            '提供觀光採果服務',
+            '自製草莓生乳捲、草莓蛋糕',
+            '返鄉青年的農業新想像'
+        ],
+        services: [
+            '草莓採果體驗',
+            '草莓蛋糕DIY（裝飾體驗）',
+            '草莓加工品選購',
+            '溫室導覽解說'
+        ],
+        owner: '能定下心在溫室中種植的返鄉青年，有技術的磨練與家人的支持，肩負起在地農業的新一代想像。'
+    },
+    
+    yanshuai: {
+        name: '研帥蘭園',
+        category: '農場果園',
+        intro: '從阿公的蘭花代工開始，現已發展成專業育種蘭園。耗時六年培育穩定品種，擁有多項專利，以品質確立價值，在產業之外也關心社區發展。',
+        features: [
+            '從代工轉型為育種專業',
+            '育種到品種穩定需耗時六年',
+            '擁有自主專利品種',
+            '誠信經營，嚴選合作夥伴',
+            '參與一袋一鹿品牌串連'
+        ],
+        services: [
+            '蘭花品種導覽',
+            '育種技術分享',
+            '蘭花栽培諮詢',
+            '專利品種展示'
+        ],
+        owner: '蘭花王國的一枚螺絲，耐心孕育自己的專利品種，用育種宣揚品牌競爭力。'
+    },
+    
+    lengyan: {
+        name: '冷研探索館',
+        category: '文化景點',
+        intro: '全台首間CO₂教育體驗場域，結合課程、互動展示與乾冰實驗，讓民眾從各個面向認識CO₂，體驗有趣好玩的科學教育。',
+        features: [
+            '全台首創CO₂主題教育館',
+            '互動式科學展示',
+            '乾冰實驗體驗',
+            '創意飲品製作',
+            '寓教於樂的科學教育'
+        ],
+        services: [
+            '漸層氣泡飲製作',
+            '漂浮沐浴球DIY',
+            '雪刷乾冰體驗',
+            'CO₂科學導覽'
+        ],
+        owner: '讓CO₂可以貼近人們的生活，不只是科學知識，更是生活中的趣味體驗。'
+    },
+    
+    shengjia: {
+        name: '鹿草聖家園區',
+        category: '文化景點',
+        intro: '1961年匈牙利籍天主教神父葉由根與修士晁金名創建的醫院及幼稚園，為在地居民提供免費醫療與教育。2021年重新整頓，成立鹿草聖家創生基地。',
+        features: [
+            '1961年由匈牙利傳教士創建',
+            '曾提供免費醫療服務',
+            '育英幼稚園培育在地孩童',
+            '保存完整的歷史建築',
+            '現為創生基地活化使用'
+        ],
+        services: [
+            '歷史建築導覽',
+            '文物展示參觀',
+            '創生活動參與',
+            '宗教文化體驗'
+        ],
+        owner: '遠從西方來的傳教士，把鹿草當成故鄉，聖家就是天父的愛，不分信仰與你我。'
+    },
+    
+    yuanshan: {
+        name: '鹿草圓山宮',
+        category: '文化景點',
+        intro: '鹿草地方信仰中心，保有豐富的民俗文化，包括乩童文化、火馬祭、刈水火等傳統儀式。元宵節的擲炮台活動更是一大特色。',
+        features: [
+            '保有完整乩童文化',
+            '元宵擲炮台傳統（類似澎湖攻炮城）',
+            '火馬祭送瘟祈福',
+            '刈水火盛會（每9年執行一次）',
+            '王孫大使公發財金乞借'
+        ],
+        services: [
+            '廟宇參拜導覽',
+            '民俗活動體驗',
+            '發財金乞借',
+            '傳統儀式觀賞'
+        ],
+        owner: '民間信仰守護移民過黑水，透過各種儀式傳達神諭，賜福於民。'
+    },
+    
+    library: {
+        name: '鹿草鄉立圖書館',
+        category: '文化景點',
+        intro: '日治時期庄役場改建的圖書館，建於1936年，是全縣唯一的日式建築圖書館。嘉義縣人均借閱率最高，經常舉辦多樣化的文化活動。',
+        features: [
+            '1936年建造的日式建築',
+            '13溝紋磚、國防色外觀',
+            '嘉義縣人均借閱率最高',
+            '鹿仔草民俗文化學堂',
+            '皮影戲志工練習區'
+        ],
+        services: [
+            '圖書借閱服務',
+            '日式建築導覽',
+            '皮影戲表演觀賞',
+            '文化手作體驗'
+        ],
+        owner: '將近一百年的行政廳舍，成為小而美的圖書館，老建築承載書香與文化。'
+    },
+    
+    sanjiao: {
+        name: '三角社區',
+        category: '文化景點',
+        intro: '充滿活力的社區營造典範，擁有綠照和社區活動中心。志工們將雜草叢生的角落轉變為融合自然循環、友善農法與社區共學的基地。',
+        features: [
+            '田心食育園種植15種地瓜',
+            '每年舉辦控窯活動',
+            '暑期夏令營培育孩童',
+            '阿里山油菊種植',
+            '竹排菜園創意設計'
+        ],
+        services: [
+            '食育園參觀',
+            '控窯活動體驗',
+            '社區導覽',
+            '九宮格便當教學'
+        ],
+        owner: '年輕的返鄉者與充滿熱情的志工是社區活力的開關，熱情才是驅動社區的動力。'
+    },
+    
+    rihe: {
+        name: '日和製冰部',
+        category: '美食餐廳',
+        intro: '70年歷史的傳統製冰店，夏天賣冰冬天賣蚵嗲。至今仍以阿摩尼亞製冰，保有多種經典冰品如四果冰、月見冰、烏梅冰等。',
+        features: [
+            '70年傳統製冰技術',
+            '阿摩尼亞製冰法',
+            '雪冰（香蕉冰）口感綿密',
+            '配料大部分自煮',
+            '冬天提供炸物小吃'
+        ],
+        services: [
+            '傳統雪花冰',
+            '古早味冰品',
+            '雪冰紅茶飲品',
+            '冬季炸物小吃'
+        ],
+        owner: '老店不必新生，只需傳承延續，讓食物成為文化的一環，吃一口就想家的冰涼滋味。'
+    },
+    
+    jiaxing: {
+        name: '嘉興山海產餐廳',
+        category: '美食餐廳',
+        intro: '三代傳承的總舖師家族，從阿公在客棧服務到現在的山海產餐廳。以豐富的山產處理技術聞名，三杯田鼠是招牌料理。',
+        features: [
+            '三代總舖師傳承',
+            '豐富山產處理技術',
+            '招牌三杯田鼠',
+            '野生兔肉料理',
+            '蟋蟀季節限定（六月底至九月初）'
+        ],
+        services: [
+            '山產野味料理',
+            '海鮮料理',
+            '外燴服務',
+            '特色料理預訂'
+        ],
+        owner: '農場工帶來食材，總舖師用外燴功夫做出料理，傳承的不只是口味，還有家鄉風光年代。'
+    },
+    
+    hele: {
+        name: '和樂食堂',
+        category: '美食餐廳',
+        intro: '民國39年登記的老食堂，從日治時期的麵攤傳承至今。保留阿嬤時代的肉捲作法，結合甘蔗田的田鼠特產，創造獨特的在地料理。',
+        features: [
+            '日治時期麵攤起家',
+            '保留阿嬤手路菜',
+            '豐富山產處理技術',
+            '中藥材自行炮製',
+            '一甲子的好手藝'
+        ],
+        services: [
+            '傳統麵食',
+            '手工肉捲',
+            '山產料理',
+            '家常菜餚'
+        ],
+        owner: '傳承阿公的麵攤，找回阿嬤的手路菜，再現熟悉又古早的味道。'
+    },
+    
+    muhou: {
+        name: '幕後咖啡',
+        category: '美食餐廳',
+        intro: '位於60年老屋的咖啡館，前身是鹿草最早的洗衣店。喜歡電影的老闆利用各式農產調和咖啡口味，創造獨特的咖啡調酒與甜點。',
+        features: [
+            '60年老屋改建',
+            '農產融入咖啡創新',
+            '南南里咖啡加入跳跳糖',
+            '調酒概念的無酒精特調',
+            '獨特的視聽味覺體驗'
+        ],
+        services: [
+            '創意咖啡特調',
+            '精品咖啡',
+            '手工甜點',
+            '文化故事分享'
+        ],
+        owner: '在老房子開年輕咖啡館，把產品推至幕前，獨樹一格的韻味。'
+    },
+    
+    zhuanxin: {
+        name: '專心僧服',
+        category: '工藝商店',
+        intro: '從婆婆製作僧服領子開始，現已傳承三代。提供客製化量身製作，布料從國外購買再染整，是台灣唯一能提供客製化僧服的公司。',
+        features: [
+            '三代傳承的專業技術',
+            '客製化量身訂作',
+            '服務東南亞、澳美等地華人',
+            '自行設計染整布料',
+            '保存傳統裁縫技藝'
+        ],
+        services: [
+            '僧服量身訂製',
+            '布料選擇諮詢',
+            '傳統工藝展示',
+            '潤六月壽衣製作'
+        ],
+        owner: '專心僧服目前是唯一台灣製造與能提供客製化服務公司，量身訂製的細工服務。'
+    },
+    
+    shouxiang: {
+        name: '壽香珍',
+        category: '工藝商店',
+        intro: '傳統糕餅店，堅持自製內餡，保證傳統口味的存留。紅龜有綠豆和花生口味，水晶餅與坊間杏仁精風味不同，都是自家獨特配方。',
+        features: [
+            '傳統糕餅手工製作',
+            '內餡全部自製',
+            '紅龜綠豆花生口味',
+            '獨特水晶餅配方',
+            '年輕人願意接班傳承'
+        ],
+        services: [
+            '傳統糕餅訂製',
+            '祭祀用品製作',
+            '結婚喜餅訂製',
+            '零售古早味點心'
+        ],
+        owner: '自己做保證了傳統口味的存留，當老店的年輕人願意接班，文化就有了傳承。'
+    },
+    
+    naiduo: {
+        name: '乃朵菈蛋糕店',
+        category: '工藝商店',
+        intro: '2014年創業至今，以客製化又具獨創性的甜點擄獲顧客的心。善於運用顏色調配及嚴選材料，提供獨一無二的生日蛋糕。',
+        features: [
+            '創業十年的精品甜點店',
+            '客製化生日蛋糕',
+            '獨創性強的設計',
+            '嚴選優質材料',
+            '宅配電商為主'
+        ],
+        services: [
+            '客製化蛋糕訂製',
+            '精緻甜點選購',
+            '伴手禮包裝',
+            '甜點外帶服務'
+        ],
+        owner: '以客製化又具獨創性甜點，擄獲眼球與胃的好評，為鹿草注入香甜氣息。'
+    },
+    
+    poan: {
+        name: '泊岸居民宿',
+        category: '特色住宿',
+        intro: '因對故鄉的愛而修繕老宅，被朋友推薦開設民宿。主人在台北45年後返鄉，從一袋一鹿開始串連在地發展。',
+        features: [
+            '老宅改建的溫馨民宿',
+            '保留傳統建築特色',
+            '主人親切的在地導覽',
+            '參與一袋一鹿串連',
+            '充滿故鄉情懷'
+        ],
+        services: [
+            '特色住宿體驗',
+            '在地導覽服務',
+            '早餐提供',
+            '旅遊諮詢'
+        ],
+        owner: '因為有對故鄉的愛，才有修繕老家的行動，日久年深回頭仍愛故鄉。'
+    },
+    
+    jgucuo: {
+        name: 'J古厝',
+        category: '特色住宿',
+        intro: '因崇尚鄉間生活與喜愛老宅氛圍，在鹿草落腳。三合院格局的古色古香民宿，透過鄰居互助展現農村的溫暖人情。',
+        features: [
+            '三合院格局建築',
+            '古色古香的氛圍',
+            '鄰居互助的溫情',
+            '完整保留傳統格局',
+            '體驗真實農村生活'
+        ],
+        services: [
+            '三合院住宿體驗',
+            '農村生活體驗',
+            '傳統建築導覽',
+            '在地美食推薦'
+        ],
+        owner: '走訪很多地方，因緣際會在鹿草落腳，鄉間互助的老屋民宿。'
+    }
+};
+
+// 顯示點位詳情
+function showLocationDetail(locationId) {
+    const detail = locationDetails[locationId];
+    if (!detail) return;
+    
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = `
+        <div class="modal-header">
+            <h2>${detail.name}</h2>
+            <span class="modal-category">${detail.category}</span>
+        </div>
+        <div class="modal-body">
+            <div class="modal-section">
+                <h3>📍 簡介</h3>
+                <p>${detail.intro}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>✨ 特色亮點</h3>
+                <ul class="service-list">
+                    ${detail.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🎯 提供服務</h3>
+                <ul class="service-list">
+                    ${detail.services.map(service => `<li>${service}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3>👤 經營者故事</h3>
+                <p>${detail.owner}</p>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('locationModal').style.display = 'block';
+}
+
+// 關閉彈出視窗
+function closeModal() {
+    document.getElementById('locationModal').style.display = 'none';
+}
+
+// 點擊視窗外部關閉
+window.onclick = function(event) {
+    const modal = document.getElementById('locationModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// 添加卡片動畫效果
+document.addEventListener('DOMContentLoaded', function() {
+    // 給所有點位卡片添加載入動畫
+    const locationCards = document.querySelectorAll('.location-card');
+    locationCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.5s ease';
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 50);
+    });
+});
