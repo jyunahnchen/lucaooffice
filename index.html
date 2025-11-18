@@ -48,26 +48,71 @@
                     <p class="page-subtitle">拾起偏鄉土地的純萃</p>
                 </div>
 
-                <div class="grid grid-3">
-                    <div class="feature-highlight">
-                        <span class="feature-icon">🌾</span>
-                        <h3>在地農產</h3>
-                        <p>嚴選鹿草在地優質農產品，包含水稻、秋葵、小番茄、火龍果等，以契作方式確保品質與永續發展。</p>
-                        <button class="btn" onclick="showPage('products')">查看產品</button>
-                    </div>
-                    <div class="feature-highlight">
-                        <span class="feature-icon">🏭</span>
-                        <h3>食品工業城</h3>
-                        <p>建立完善的食品加工體系，從原料到成品一條龍服務，創造辛咖哩、辣味米餅、秋葵脆片等精品。</p>
-                        <button class="btn" onclick="showPage('about')">了解更多</button>
-                    </div>
-                    <div class="feature-highlight">
-                        <span class="feature-icon">🌱</span>
-                        <h3>永續發展</h3>
-                        <p>實踐ESG理念，推動永續農業、社區共榮，打造低碳市集與濕地導覽等生態體驗。</p>
-                        <button class="btn" onclick="showPage('sustainability')">ESG實踐</button>
-                    </div>
-                </div>
+ <!-- 此區塊替換原有的農產加工產品卡片部分 -->
+<!-- 在 <div class="card" style="margin-top: 3rem;"> 之後 -->
+<!-- <h3>🏭 加工商品介紹</h3> 之後 -->
+
+<div class="grid grid-3">
+    <div class="product-card" onclick="showProcessedProductDetail('product01')">
+        <div class="product-image-photo" style="background-image: url('/images/product01.jpg')"></div>
+        <div class="product-info">
+            <h3>辛咖哩</h3>
+            <p class="brand-name">台灣食研食品股份有限公司</p>
+            <div class="product-price">NT$ 180 / 罐</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product01')">查看詳情</button>
+        </div>
+    </div>
+    
+    <div class="product-card" onclick="showProcessedProductDetail('product02')">
+        <div class="product-image-photo" style="background-image: url('/images/product02.jpg')"></div>
+        <div class="product-info">
+            <h3>鹿草牛奶香米</h3>
+            <p class="brand-name">鹿草鄉農會</p>
+            <div class="product-price">NT$ 280 / 3公斤</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product02')">查看詳情</button>
+        </div>
+    </div>
+    
+    <div class="product-card" onclick="showProcessedProductDetail('product03')">
+        <div class="product-image-photo" style="background-image: url('/images/product03.jpg')"></div>
+        <div class="product-info">
+            <h3>麻辣藥膳包</h3>
+            <p class="brand-name">瑞安堂中藥行/花陞堂中西藥局</p>
+            <div class="product-price">NT$ 130 / 包</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product03')">查看詳情</button>
+        </div>
+    </div>
+    
+    <div class="product-card" onclick="showProcessedProductDetail('product04')">
+        <div class="product-image-photo" style="background-image: url('/images/product04.jpg')"></div>
+        <div class="product-info">
+            <h3>火馬辣米磚</h3>
+            <p class="brand-name">奮起福米餅</p>
+            <div class="product-price">NT$ 250 / 包</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product04')">查看詳情</button>
+        </div>
+    </div>
+    
+    <div class="product-card" onclick="showProcessedProductDetail('product05')">
+        <div class="product-image-photo" style="background-image: url('/images/product05.jpg')"></div>
+        <div class="product-info">
+            <h3>雪花秋葵Q餅</h3>
+            <p class="brand-name">乃朵菈手工甜點</p>
+            <div class="product-price">NT$ 310 / 盒</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product05')">查看詳情</button>
+        </div>
+    </div>
+    
+    <div class="product-card" onclick="showProcessedProductDetail('product06')">
+        <div class="product-image-photo" style="background-image: url('/images/product06.jpg')"></div>
+        <div class="product-info">
+            <h3>掛雙酥脆腰果</h3>
+            <p class="brand-name">乃朵菈手工甜點</p>
+            <div class="product-price">NT$ 160 / 包</div>
+            <button class="btn" onclick="event.stopPropagation(); showProcessedProductDetail('product06')">查看詳情</button>
+        </div>
+    </div>
+</div>
 
                 <div class="stats">
                     <div class="stat-item">

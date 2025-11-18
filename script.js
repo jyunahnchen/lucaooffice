@@ -721,3 +721,220 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 50);
     });
 });
+
+// 農產加工品詳細資料
+const processedProductDetails = {
+    product01: {
+        name: '辛咖哩',
+        brand: '台灣食研食品股份有限公司',
+        category: '調味品',
+        price: 'NT$ 180 / 罐',
+        image: '/images/product01.jpg',
+        intro: '以鹿草「朱雀（朝天椒)」研製，結合獨家香料配方，打造出香辣適中、層次豐富的咖哩醬。',
+        ingredients: '朝天椒、薑黃、蒜頭、洋蔥、椰奶',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '獨家香料配方',
+            '在地食材新鮮直送',
+            '低溫熬煮保留營養',
+            '無添加防腐劑'
+        ],
+        specs: '160克/罐',
+        usage: ['可直接拌飯', '炒菜調味', '咖哩料理基底'],
+        story: '因為愛吃辣的女兒總是抱怨市售咖哩不夠味，決定用自家種的辣椒研發專屬配方...',
+        concept: '堅持使用在地食材，支持小農經濟，讓每一口都吃得到鹿草的好味道。',
+        target: '25-45歲注重健康的上班族、喜愛料理的家庭主婦',
+        channels: ['網路商城']
+    },
+    product02: {
+        name: '鹿草牛奶香米',
+        brand: '鹿草鄉農會',
+        category: '主食',
+        price: 'NT$ 280 / 3公斤',
+        image: '/images/product02.jpg',
+        intro: '以台南20號為基底，米粒大、半透明乳白色，帶淡淡芋頭香，熱飯軟黏、冷飯Q彈。',
+        ingredients: '鹿草牛奶香米',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '低直鏈澱粉特性(半梗半糯)',
+            '帶淡淡芋頭香氣',
+            '保水佳、冷飯不易變硬',
+            '台版牛奶皇后'
+        ],
+        specs: '3公斤/包',
+        usage: ['送禮', '自用', '搭配料理'],
+        story: '歷經9年育種，結合臺農14號、台稉4號與台農84號優良特性，培育出台版牛奶皇后，適應氣候變遷、節水減碳。',
+        concept: '從生產、加工到行銷，展現完整六級化產業鏈，讓鹿草農產走向國際。',
+        target: '喜愛在地特色伴手禮、注重食材來源的消費者、遊客',
+        channels: ['鹿草鄉農會(限量預購)']
+    },
+    product03: {
+        name: '麻辣藥膳包',
+        brand: '瑞安堂中藥行/花陞堂中西藥局',
+        category: '調味品',
+        price: 'NT$ 130 / 包',
+        image: '/images/product03.jpg',
+        intro: '由第四代青年創業王詔郁藥師，融合藥膳概念與鹿草在地朝天椒，展現傳統產業創新轉型的新樣貌。',
+        ingredients: '朝天椒、中藥材',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '藥師專業調配',
+            '在地朝天椒入味',
+            '突破傳統展現轉型創意',
+            '傳統與創新的完美結合'
+        ],
+        specs: '依包裝規格',
+        usage: ['火鍋湯底', '炒菜調味', '藥膳料理'],
+        story: '第四代青年創業傳承，突破傳統中藥行經營模式。',
+        concept: '以藥師專業結合社區諮詢服務，創新經營藥局品牌。',
+        target: '喜愛麻辣料理、注重養生的消費者',
+        channels: ['花陞堂中西藥局門市']
+    },
+    product04: {
+        name: '火馬辣米磚',
+        brand: '奮起福米餅',
+        category: '零食點心',
+        price: 'NT$ 250 / 包',
+        image: '/images/product04.jpg',
+        intro: '選用鹿草朱雀朝天椒製作的辣椒米磚，結合火馬祭文化的創新應用。',
+        ingredients: '米、鹿草朱雀朝天椒',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '與火馬祭文化結合',
+            '在地朱雀朝天椒',
+            '農產品與信仰文化的創新應用',
+            '獨特的在地特色'
+        ],
+        specs: '依包裝規格',
+        usage: ['零食點心', '下酒菜'],
+        story: '結合鹿草圓山宮火馬祭文化，展現在地信仰與農產的創新結合。',
+        concept: '農產品與在地文化信仰結合的創新應用。',
+        target: '喜愛辣味零食、對在地文化有興趣的消費者、遊客',
+        channels: ['奮起福米餅門市', '奮起湖大飯店', '預計於奮起福米餅門市上架販售']
+    },
+    product05: {
+        name: '雪花秋葵Q餅',
+        brand: '乃朵菈手工甜點',
+        category: '甜點',
+        price: 'NT$ 310 / 盒',
+        image: '/images/product05.jpg',
+        intro: '結合鹿草秋葵等在地農產的雪花Q餅手工製作，展現創意與健康的完美結合。',
+        ingredients: '秋葵、麵粉等烘焙材料',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '手工製作',
+            '在地秋葵入料',
+            '新研發特色產品',
+            '健康美味兼具'
+        ],
+        specs: '依盒裝規格',
+        usage: ['下午茶', '伴手禮'],
+        story: '隱身村落的手工甜點店，致力研發在地農產創意甜點。',
+        concept: '結合在地農產，創作手工甜點。',
+        target: '喜愛手工甜點、注重健康食材的消費者',
+        channels: ['乃朵菈手工甜點', '網路商城']
+    },
+    product06: {
+        name: '掛雙酥脆腰果',
+        brand: '乃朵菈手工甜點',
+        category: '零食點心',
+        price: 'NT$ 160 / 包',
+        image: '/images/product06.jpg',
+        intro: '選用鹿草在地朱雀朝天椒與堅果手工製作，口味香辣不嗆，雙重酥脆技法讓口感升級。',
+        ingredients: '腰果、鹿草朱雀朝天椒',
+        origin: '嘉義縣鹿草鄉',
+        features: [
+            '嚴選鹿草在地朱雀朝天椒',
+            '與小農合作的小批量手作',
+            '天然食材、不添加多餘添加物',
+            '雙重酥脆技法'
+        ],
+        specs: '依包裝規格',
+        usage: ['零食點心', '下酒菜', '下午茶'],
+        story: '隱身村落的手工甜點店，致力研發在地農產創意甜點。',
+        concept: '結合在地農產，創作手工甜點。',
+        target: '喜愛辣味零食、對在地文化有興趣的消費者、遊客',
+        channels: ['乃朵菈手工甜點', '網路商城']
+    }
+};
+
+// 顯示農產加工品詳情
+function showProcessedProductDetail(productId) {
+    const detail = processedProductDetails[productId];
+    if (!detail) return;
+    
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = `
+        <div class="modal-header">
+            <h2>${detail.name}</h2>
+            <span class="modal-category">${detail.brand}</span>
+        </div>
+        <div class="modal-body">
+            <div class="product-detail-image">
+                <img src="${detail.image}" alt="${detail.name}" onerror="this.src='/images/logo.png'">
+            </div>
+            
+            <div class="modal-section">
+                <h3>📦 產品資訊</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>產品類別：</strong>${detail.category}
+                    </div>
+                    <div class="info-item">
+                        <strong>產地來源：</strong>${detail.origin}
+                    </div>
+                    <div class="info-item">
+                        <strong>產品規格：</strong>${detail.specs}
+                    </div>
+                    <div class="info-item">
+                        <strong>售價：</strong><span class="price-highlight">${detail.price}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3>📝 產品簡介</h3>
+                <p>${detail.intro}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🌿 主要原料</h3>
+                <p>${detail.ingredients}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>✨ 製作特色</h3>
+                <ul class="service-list">
+                    ${detail.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🍽️ 建議用途</h3>
+                <div class="usage-tags">
+                    ${detail.usage.map(use => `<span class="tag">${use}</span>`).join('')}
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3>📖 品牌故事</h3>
+                <p><strong>創立緣起：</strong>${detail.story}</p>
+                <p><strong>經營理念：</strong>${detail.concept}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🎯 目標客群</h3>
+                <p>${detail.target}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>🏪 銷售通路</h3>
+                <ul class="service-list">
+                    ${detail.channels.map(channel => `<li>${channel}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('locationModal').style.display = 'block';
+}
